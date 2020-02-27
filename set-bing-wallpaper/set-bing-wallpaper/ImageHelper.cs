@@ -1,27 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace set_bing_wallpaper
 {
     class ImageHelper
     {
-        public string DownloadImageToFolder(string url, string folder, string filename)
+        public async Task<string> DownloadImageToFolder(string url, string folder, string filename)
         {            
             var fileInfo = new FileInfo(folder + filename);
-            var _httpClient = new HttpClient();
-            var response = _httpClient.GetAsync(url).Result;
 
-            using (var ms = response.Content.ReadAsStreamAsync().Result)
+            if (!File.Exists(fileInfo.FullName))
             {
-                using (var fs = File.Create(fileInfo.FullName))
+                var _httpClient = new HttpClient();
+                var response = await _httpClient.GetAsync(url);
+
+                using (var ms = await response.Content.ReadAsStreamAsync())
                 {
-                    ms.Seek(0, SeekOrigin.Begin);
-                    ms.CopyTo(fs);
+                    using (var fs = File.Create(fileInfo.FullName))
+                    {
+                        ms.Seek(0, SeekOrigin.Begin);
+                        ms.CopyTo(fs);
+                    }
                 }
             }
                      

@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BingImage.cs" />
+    <Compile Include="Dto\ResultsDto.cs" />
     <Compile Include="ImageHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

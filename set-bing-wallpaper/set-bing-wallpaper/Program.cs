@@ -1,27 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace set_bing_wallpaper
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main()
         {
-            //Get Bing Image
+            //Get Bing image of the day
             var bingImage = new BingImage();
-            var image = bingImage.GetImage();
+            var image = await bingImage.GetImage();
 
-            //Save Image            
-            var basepath = @"c:\_BingImages\";
+            //Save image            
+            var imagesFolder = @"c:\_BingImages\";
             var imageHelper = new ImageHelper();
-            var localImagePath = imageHelper.DownloadImageToFolder(image.URL, basepath, image.Hash + ".jpg");
+            var pathToImage = await imageHelper.DownloadImageToFolder(image.URL, imagesFolder, image.Hash + ".jpg");
             
-            //Set Image as wallpaper
+            //Set image as wallpaper
             var ws = new WallpaperSetter();
-            ws.Set(localImagePath);            
-        }                
+            ws.Set(pathToImage);            
+        }
     }
 }
